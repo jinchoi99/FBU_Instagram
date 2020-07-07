@@ -25,6 +25,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //is some user is already signed in, don't show login screen, go straight to mainactivity
+        //without this, will show login screen whenever restart app bc our launch activity is loginactivity
+        if(ParseUser.getCurrentUser() != null){
+            goMainActivity();
+        }
+
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);

@@ -42,13 +42,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String username, String password){
-        Log.i(TAG,"Attempting to login user" + username);
+        Log.i(TAG,"Attempting to login user " + username);
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 //if request succeeded, exception e becomes null
                 if(e!=null){
                     Log.e(TAG, "Issue with login", e);
+                    Toast.makeText(LoginActivity.this, "Issue with login!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //go to mainActivity if login succeed
@@ -63,5 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         //this is refering to this activity = LoginActivity, Activity is an instance of a Context
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+        //to prevent going back to login page when pressing back button after going to mainactivity
+        //end loginactivity, remove from back stack once we've done the navigation
+        finish();
     }
 }

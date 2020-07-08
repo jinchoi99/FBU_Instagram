@@ -28,8 +28,8 @@ public class PostsFragment extends Fragment {
 
     public static final String TAG = "PostsFragment";
     private RecyclerView rvPosts;
-    private PostsAdapter adapter;
-    private List<Post> allPosts;
+    protected PostsAdapter adapter;
+    protected List<Post> allPosts;
 
     public PostsFragment() {
         // Required empty public constructor
@@ -60,12 +60,17 @@ public class PostsFragment extends Fragment {
     }
 
     //use api presented by parse in order to get data out of the db
-    private void queryPosts() {
+    protected void queryPosts() {
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
 
         //include info for another parse object User
         query.include(Post.KEY_USER);
+
+        //User can view the last 20 posts submitted
+        query.setLimit(20);
+        //posts show in order
+        query.addDescendingOrder(Post.KEY_CREATED_KEY);
 
         // query for all the post objects from our db
         query.findInBackground(new FindCallback<Post>() {

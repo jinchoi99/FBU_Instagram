@@ -13,7 +13,6 @@ import java.util.List;
 public class ProfileFragment extends PostsFragment {
     @Override
     protected void queryPosts() {
-        super.queryPosts();
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.setLimit(20);

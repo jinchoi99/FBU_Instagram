@@ -1,9 +1,12 @@
 package com.example.instagramclone;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -67,7 +71,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //user
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(description, currentUser);
+                //image
+                if(photoFile == null || ivPostImage.getDrawable() == null){
+                    Toast.makeText(MainActivity.this, "There is no image!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                savePost(description, currentUser, photoFile);
             }
         });
     }
@@ -95,6 +104,23 @@ public class MainActivity extends AppCompatActivity {
         //should say != null for physical device
     }
 
+    //this method is invoked when child application returns to the parent application (InstagramClone)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // by this point we have the camera photo on disk
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                // RESIZE BITMAP, see section below
+                // Load the taken image into a preview
+                ivPostImage.setImageBitmap(takenImage);
+            } else { // Result was a failure
+                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos
@@ -111,12 +137,11 @@ public class MainActivity extends AppCompatActivity {
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
-    private void savePost(String description, ParseUser currentUser) {
+    private void savePost(String description, ParseUser currentUser, File photoFile) {
         Post post = new Post();
         post.setDescription(description);
         post.setUser(currentUser);
-        //post.setImage();
-
+        post.setImage(new ParseFile(photoFile));
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -126,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Log.i(TAG, "Post was saved successfully!");
                 etDescription.setText("");
-
+                ivPostImage.setImageResource(0);
             }
         });
     }

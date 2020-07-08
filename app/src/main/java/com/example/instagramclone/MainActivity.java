@@ -38,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     private void queryPosts() {
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+
+        //include info for another parse object User
+        query.include(Post.KEY_USER);
+
         // query for all the post objects from our db
         query.findInBackground(new FindCallback<Post>() {
             @Override
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 for(Post post : posts){
-                    Log.i(TAG, "Post: " + post.getDescription());
+                    Log.i(TAG, "Post: " + post.getDescription() + " username: " + post.getUser().getUsername());
                 }
             }
         });

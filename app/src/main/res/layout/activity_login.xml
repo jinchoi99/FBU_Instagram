@@ -4,9 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="100dp"
+    android:layout_marginRight="16dp"
     android:orientation="vertical"
     tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/tvInstagram"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:gravity="center"
+
+        android:text="Instagram"
+        android:textAppearance="@style/InstagramFont"
+        android:textSize="50dp" />
 
     <EditText
         android:id="@+id/etUsername"
@@ -30,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:backgroundTint="#2196F3"
         android:text="login" />
 
 

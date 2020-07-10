@@ -5,6 +5,8 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 @ParseClassName("Post")
 public class Post extends ParseObject {
     //define getters and setters based on keys (names of columns in parse dashboard) we've defined

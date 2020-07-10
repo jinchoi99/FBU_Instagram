@@ -50,18 +50,17 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvUsername;
         private ImageView ivImage;
         private TextView tvDescription;
+        private Post currentPost;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
-
             View.OnClickListener detailsListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Fragment fragment = new DetailsFragment();
-                    ((MainActivity)context).fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    ((MainActivity) context).fragmentManager.beginTransaction().replace(R.id.flContainer, DetailsFragment.newInstance(currentPost)).commit();
                 }
             };
             //show details when click on image
@@ -69,6 +68,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         }
 
         public void bind(Post post) {
+            currentPost = post;
             //Bind the post data to the view elements
             tvUsername.setText(post.getUser().getUsername());
             tvDescription.setText(post.getDescription());

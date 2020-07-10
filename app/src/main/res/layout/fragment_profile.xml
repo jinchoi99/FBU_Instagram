@@ -40,7 +40,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="15dp"
-                    app:srcCompat="@drawable/ic_baseline_person_24" />
+                    tools:src="@tools:sample/avatars"
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvProfile"

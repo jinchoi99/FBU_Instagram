@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.instagramclone.LoginActivity;
 import com.example.instagramclone.Post;
 import com.example.instagramclone.PostsAdapter;
 import com.example.instagramclone.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -66,6 +69,11 @@ public class ProfileFragment extends Fragment {
 
         queryPosts();
 
+        //TODO: fix profile pic
+        ParseFile image = ParseUser.getCurrentUser().getParseFile("profilepic");
+        if(image!=null){
+            Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("profilepic").getUrl()).into(ivProfilePic);
+        }
         tvProfileUsername.setText(ParseUser.getCurrentUser().getUsername());
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override

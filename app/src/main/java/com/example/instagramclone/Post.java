@@ -14,6 +14,7 @@ public class Post extends ParseObject {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "user";
     public static final String KEY_CREATED_KEY = "createdAt";
+    public static final String KEY_PROFILE_PIC = "profilepic";
 
     public String getDescription(){
         //getString is a method defined in ParseObject class
@@ -36,5 +37,9 @@ public class Post extends ParseObject {
     }
     public void setUser(ParseUser user){
         put(KEY_USER, user);
+    }
+
+    public ParseFile getProfilePic(){
+        return getUser().getParseFile(KEY_PROFILE_PIC);
     }
 }

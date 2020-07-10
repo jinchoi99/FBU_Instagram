@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.instagramclone.EndlessRecyclerViewScrollListener;
 import com.example.instagramclone.Post;
 import com.example.instagramclone.PostsAdapter;
 import com.example.instagramclone.R;
@@ -30,6 +31,9 @@ public class PostsFragment extends Fragment {
     private RecyclerView rvPosts;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
+    // Store a member variable for the listener
+    private EndlessRecyclerViewScrollListener scrollListener;
+    int skip;
 
     //pull-to-refresh
     private SwipeRefreshLayout swipeContainer;
@@ -58,8 +62,9 @@ public class PostsFragment extends Fragment {
         // 3. set the adapter on the recycler view
         rvPosts.setAdapter(adapter);
         // 4. set the layout manager on the recycler view
-        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPosts.setLayoutManager(linearLayoutManager);
+        skip = 0;
         queryPosts();
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
@@ -77,6 +82,18 @@ public class PostsFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                queryPosts();
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        rvPosts.addOnScrollListener(scrollListener);
     }
 
     //use api presented by parse in order to get data out of the db
@@ -86,6 +103,8 @@ public class PostsFragment extends Fragment {
 
         //include info for another parse object User
         query.include(Post.KEY_USER);
+
+        query.setSkip(skip);
 
         //User can view the last 20 posts submitted
         query.setLimit(20);
@@ -105,6 +124,7 @@ public class PostsFragment extends Fragment {
                 }
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
+                skip += posts.size(); //when reach end, add more endless scroll
             }
         });
     }

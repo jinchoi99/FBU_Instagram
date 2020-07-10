@@ -64,5 +64,9 @@ public class DetailsFragment extends Fragment {
         if(image!=null){
             Glide.with(getContext()).load(currentPost.getImage().getUrl()).into(ivDetailPic);
         }
+        image = currentPost.getProfilePic();
+        if(image!=null){
+            Glide.with(getContext()).load(currentPost.getProfilePic().getUrl()).into(ivDetailProfile);
+        }
     }
 }

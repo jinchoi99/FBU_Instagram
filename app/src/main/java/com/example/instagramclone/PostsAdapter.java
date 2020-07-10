@@ -9,9 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.instagramclone.fragments.DetailsFragment;
 import com.parse.ParseFile;
 
 import java.util.List;
@@ -44,7 +47,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
         private TextView tvUsername;
         private ImageView ivImage;
         private TextView tvDescription;
@@ -54,6 +56,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+
+            View.OnClickListener detailsListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Fragment fragment = new DetailsFragment();
+                    ((MainActivity)context).fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                }
+            };
+            //show details when click on image
+            ivImage.setOnClickListener(detailsListener);
         }
 
         public void bind(Post post) {

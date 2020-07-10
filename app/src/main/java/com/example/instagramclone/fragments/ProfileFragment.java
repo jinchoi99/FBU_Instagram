@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.instagramclone.LoginActivity;
 import com.example.instagramclone.Post;
@@ -34,6 +35,9 @@ public class ProfileFragment extends Fragment {
     private RecyclerView rvProfile;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
+
+    //pull-to-refresh
+    private SwipeRefreshLayout swipeContainer;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -67,6 +71,22 @@ public class ProfileFragment extends Fragment {
                 getActivity().finish();
             }
         });
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                queryPosts();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     protected void queryPosts() {

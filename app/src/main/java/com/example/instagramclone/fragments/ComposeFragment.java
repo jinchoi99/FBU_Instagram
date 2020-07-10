@@ -137,11 +137,10 @@ public class ComposeFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                // RESIZE BITMAP, see section below
-                // Load the taken image into a preview
                 ivPostImage.setImageBitmap(takenImage);
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Picture wasn't taken!");
             }
         }
     }
@@ -156,6 +155,7 @@ public class ComposeFragment extends Fragment {
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
             Log.d(TAG, "failed to create directory");
+            return null;
         }
 
         // Return the file target for the photo based on filename
@@ -173,6 +173,7 @@ public class ComposeFragment extends Fragment {
                 if(e!=null){
                     Log.e(TAG, "Error while saving",e);
                     Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 Log.i(TAG, "Post was saved successfully!");
                 etDescription.setText("");

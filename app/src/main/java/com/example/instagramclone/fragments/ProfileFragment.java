@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +33,7 @@ public class ProfileFragment extends Fragment {
     public static final String TAG = "ProfileFragment";
     private Button btnLogout;
     private ImageView ivProfilePic;
+    private TextView tvProfileUsername;
     private RecyclerView rvProfile;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
@@ -55,13 +57,16 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ivProfilePic = view.findViewById(R.id.ivProfilePic);
         btnLogout = view.findViewById(R.id.btnLogout);
+        tvProfileUsername = view.findViewById(R.id.tvProfileUsername);
         rvProfile = view.findViewById(R.id.rvProfile);
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
         rvProfile.setAdapter(adapter);
         rvProfile.setLayoutManager(new LinearLayoutManager(getContext()));
+
         queryPosts();
 
+        tvProfileUsername.setText(ParseUser.getCurrentUser().getUsername());
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -50,7 +50,7 @@
             android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:backgroundTint="#2196F3"
-            android:text="login" />
+            android:text="log in" />
 
         <Button
             android:id="@+id/btnSignup"

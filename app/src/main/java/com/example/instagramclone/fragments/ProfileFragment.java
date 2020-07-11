@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -22,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.example.instagramclone.LoginActivity;
 import com.example.instagramclone.Post;
 import com.example.instagramclone.PostsAdapter;
+import com.example.instagramclone.ProfilesAdapter;
 import com.example.instagramclone.R;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -40,11 +42,8 @@ public class ProfileFragment extends Fragment {
     private ImageView ivProfilePic;
     private TextView tvProfileUsername;
     private RecyclerView rvProfile;
-    protected PostsAdapter adapter;
+    protected ProfilesAdapter adapter;
     protected List<Post> allPosts;
-
-    //pull-to-refresh
-    private SwipeRefreshLayout swipeContainer;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -65,9 +64,9 @@ public class ProfileFragment extends Fragment {
         tvProfileUsername = view.findViewById(R.id.tvProfileUsername);
         rvProfile = view.findViewById(R.id.rvProfile);
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), allPosts);
+        adapter = new ProfilesAdapter(getContext(), allPosts);
         rvProfile.setAdapter(adapter);
-        rvProfile.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvProfile.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         queryPosts();
 
@@ -91,22 +90,6 @@ public class ProfileFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                adapter.clear();
-                queryPosts();
-                swipeContainer.setRefreshing(false);
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
     protected void queryPosts() {

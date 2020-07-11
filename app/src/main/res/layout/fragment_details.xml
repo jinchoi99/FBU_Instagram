@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="8dp"
     android:orientation="vertical"
     tools:context=".fragments.DetailsFragment">
+
+    <ImageButton
+        android:id="@+id/ibtnHeart2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/ivDetailPic"
+        android:backgroundTint="@color/backgroundcolor"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ufi_heart" />
+
+    <ImageButton
+        android:id="@+id/ibtnComment2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/ivDetailPic"
+        android:layout_toEndOf="@+id/ibtnHeart2"
+        android:backgroundTint="@color/backgroundcolor"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ufi_comment" />
+
+
+    <ImageButton
+        android:id="@+id/ibtnShare2"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/ivDetailPic"
+        android:layout_marginStart="-6dp"
+        android:layout_marginTop="-2dp"
+        android:layout_toEndOf="@+id/ibtnComment2"
+        android:backgroundTint="@color/backgroundcolor"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ufi_new_direct" />
 
     <ImageView
         android:id="@+id/ivDetailProfile"
@@ -14,47 +46,50 @@
         android:layout_height="80dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="0dp"
         tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvDetailUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="121dp"
-        android:layout_marginTop="100dp"
-        android:text="jinjin99" />
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="28dp"
+        android:layout_toEndOf="@+id/ivDetailProfile"
+        android:text="jinjin99"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/ivDetailPic"
-        android:layout_width="311dp"
-        android:layout_height="325dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/ivDetailProfile"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="134dp"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop"
         tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvCaption"
-        android:layout_width="302dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivDetailPic"
+        android:layout_below="@+id/ibtnShare2"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="12dp"
-        android:text="jinjin99 caption caption caption caption caption caption caption caption caption caption caption caption caption caption caption " />
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="0dp"
+        android:text="jinjin99 caption caption caption caption caption caption caption caption caption caption caption caption caption caption caption "
+        android:textColor="#020202" />
 
     <TextView
         android:id="@+id/tvTimestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/tvCaption"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="34dp"
         android:layout_marginTop="11dp"
         android:text="11h ago" />
 

@@ -1,6 +1,7 @@
 package com.example.instagramclone;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.instagramclone.fragments.DetailsFragment;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
+
+import org.json.JSONException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -81,6 +86,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             };
             //show details when click on image
             ivImage.setOnClickListener(detailsListener);
+
+            ibtnHeart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!currentPost.isLiked()) {
+                        ibtnHeart.setImageResource(R.drawable.ufi_heart_active);
+                        ibtnHeart.setColorFilter(Color.argb(255, 255, 0, 0));
+                    } else {
+                        ibtnHeart.setImageResource(R.drawable.ufi_heart);
+                        ibtnHeart.setColorFilter(Color.argb(255, 0, 0, 0));
+                    }
+                }
+            });
         }
 
         public void bind(Post post) {
@@ -98,6 +116,17 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             }
             String relativeTimeAgo = getRelativeTimeAgo(post.getCreatedAt().toString());
             tvTime.setText(relativeTimeAgo);
+
+            if(post.isLiked()) {
+                ibtnHeart.setSelected(true);
+                ibtnHeart.setColorFilter(ContextCompat.getColor(context,R.color.red));
+                ibtnHeart.setImageResource(R.drawable.ufi_heart_active);
+            }
+            else {
+                ibtnHeart.setSelected(false);
+                ibtnHeart.setColorFilter(R.color.black);
+                ibtnHeart.setImageResource(R.drawable.ufi_heart);
+            }
         }
 
         // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.instagramclone.EndlessRecyclerViewScrollListener;
 import com.example.instagramclone.Post;
@@ -34,6 +35,7 @@ public class PostsFragment extends Fragment {
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
     int skip;
+    ProgressBar pb;
 
     //pull-to-refresh
     private SwipeRefreshLayout swipeContainer;
@@ -52,6 +54,10 @@ public class PostsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // on some click or some loading we need to wait for...
+        pb = (ProgressBar) view.findViewById(R.id.pbLoading);
+
         rvPosts = view.findViewById(R.id.rvPosts);
         // Steps to use the recycler view:
         // 0. create layout for one row in the list
@@ -73,6 +79,7 @@ public class PostsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 adapter.clear();
+                skip = 0;
                 queryPosts();
                 swipeContainer.setRefreshing(false);
             }
@@ -98,6 +105,8 @@ public class PostsFragment extends Fragment {
 
     //use api presented by parse in order to get data out of the db
     protected void queryPosts() {
+        pb.setVisibility(ProgressBar.VISIBLE);
+
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
 
@@ -117,6 +126,7 @@ public class PostsFragment extends Fragment {
             public void done(List<Post> posts, ParseException e) {
                 if(e!=null){
                     Log.e(TAG, "Issue with getting posts",e);
+                    pb.setVisibility(ProgressBar.INVISIBLE);
                     return;
                 }
                 for(Post post : posts){
@@ -125,6 +135,7 @@ public class PostsFragment extends Fragment {
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
                 skip += posts.size(); //when reach end, add more endless scroll
+                pb.setVisibility(ProgressBar.INVISIBLE);
             }
         });
     }

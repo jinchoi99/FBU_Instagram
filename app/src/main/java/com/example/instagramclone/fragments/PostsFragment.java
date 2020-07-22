@@ -105,6 +105,8 @@ public class PostsFragment extends Fragment {
 
     //use api presented by parse in order to get data out of the db
     protected void queryPosts() {
+        //skip changes, posts changes every element, but alLPosts only appends posts to existing allPosts list
+        Log.i(TAG, "skip: " + skip);
         pb.setVisibility(ProgressBar.VISIBLE);
 
         // Specify which class to query

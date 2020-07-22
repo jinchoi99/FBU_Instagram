@@ -8,7 +8,6 @@
         android:visible="true"
         android:iconTint="@color/black"
         app:showAsAction="always"
-
         android:title="Home" />
 
     <item

@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Issue with signup!", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    //go to mainActivity if login succeed
+                    //go to mainActivity if signup succeed
                     goMainActivity();
                     Toast.makeText(LoginActivity.this, "Signup Success!", Toast.LENGTH_SHORT).show();
                 }
